@@ -615,6 +615,7 @@
       navigator.clipboard?.writeText(SHARE_URL);
       showToast('청첩장 링크가 복사되었습니다');
     });
+  }
 
   // ---------------------------------------------------------
   // 11. RSVP / Guestbook placeholder URL handling
