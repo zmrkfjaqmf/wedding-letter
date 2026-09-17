@@ -1,668 +1,326 @@
-/* =========================================================
-   Wedding Invitation — script.js
-   김민준 ♡ 박서연 (2026.10.17)
-   Vanilla JS only. Implements motion-spec.md Must/Should items.
-   ========================================================= */
-(function () {
-  'use strict';
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5">
+  <meta name="theme-color" content="#FBF7F3">
+  <title>배재형 ♡ 이규원 — 2026.12.12 결혼합니다</title>
 
-  // ---------------------------------------------------------
-  // PLACEHOLDERS — 실제 운영 시 아래 값을 채워주세요.
-  // ---------------------------------------------------------
-  const KAKAO_JS_KEY     = ''; // placeholder: 카카오 JavaScript 키 (https://developers.kakao.com/)
-  const RSVP_FORM_URL    = ''; // placeholder: Tally / Google Form / FormSubmit URL
-  const GUESTBOOK_URL    = ''; // placeholder: 외부 방명록 폼 URL
-  const SHARE_TITLE      = '김민준 ♡ 박서연 결혼합니다';
-  const SHARE_DESC       = '2026년 10월 17일 토요일 오후 2시\n그랜드 인터컨티넨탈 서울 그랜드볼룸';
-  const SHARE_IMAGE      = location.origin + location.pathname.replace(/\/[^/]*$/, '/') + 'images/og-thumbnail.png';
-  const TARGET_DATE_STR  = '2026-10-17';
-  const TARGET_HOUR      = 14;
+  <meta name="description" content="배재형과 이규원의 결혼식에 귀한 걸음 부탁드립니다. 2026년 12월 12일 토요일 오후 18시 40분, 가천컨벤션.">
 
-  // ---------------------------------------------------------
-  // HELPERS
-  // ---------------------------------------------------------
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const isReduced     = () => reducedMotion.matches;
-  const $  = (sel, root = document) => root.querySelector(sel);
-  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
-  const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-  const haptic = (n) => { try { navigator.vibrate && navigator.vibrate(n); } catch (e) {} };
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="배재형 ♡ 이규원 결혼합니다">
+  <meta property="og:description" content="2026년 12월 12일 토요일 오후 18시 40분 · 가천컨벤션">
+  <meta property="og:image" content="images/og-thumbnail.png">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="800">
+  <meta property="og:url" content="https://zmrkfjaqmf.github.io/wedding-letter/">
+  <meta property="og:locale" content="ko_KR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="배재형 ♡ 이규원 결혼합니다">
+  <meta name="twitter:description" content="2026년 12월 12일 토요일 오후 18시 40분 · 가천컨벤션">
+  <meta name="twitter:image" content="images/og-thumbnail.png">
 
-  // ---------------------------------------------------------
-  // 1. HERO entrance step-in
-  // ---------------------------------------------------------
-  function setupHero() {
-    const hero = $('.hero');
-    if (!hero) return;
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => hero.classList.add('is-loaded'));
-    });
-  }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 
-  // ---------------------------------------------------------
-  // 2. IntersectionObserver fade reveal
-  // ---------------------------------------------------------
-  function setupReveal() {
-    const targets = $$('.reveal');
-    if (!targets.length) return;
-    if (isReduced()) {
-      targets.forEach(el => el.classList.add('is-visible'));
-      return;
-    }
-    const io = new IntersectionObserver((entries, obs) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('is-visible');
-          obs.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
-    targets.forEach(el => io.observe(el));
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas class="bg-petals" aria-hidden="true"></canvas>
 
-    // 갤러리 첫 슬라이드 blur reveal
-    const firstSlide = $('.gallery-slide:first-child');
-    if (firstSlide) firstSlide.classList.add('first-reveal');
-  }
+  <div class="bg-petals-static" aria-hidden="true">
+    <svg viewBox="0 0 60 60" class="static-petal sp-1"><ellipse cx="30" cy="30" rx="10" ry="22" fill="#C9A2A2" opacity="0.4" transform="rotate(35 30 30)"/></svg>
+    <svg viewBox="0 0 60 60" class="static-petal sp-2"><ellipse cx="30" cy="30" rx="10" ry="22" fill="#A8B59C" opacity="0.4" transform="rotate(-25 30 30)"/></svg>
+    <svg viewBox="0 0 60 60" class="static-petal sp-3"><ellipse cx="30" cy="30" rx="10" ry="22" fill="#A8B59C" opacity="0.4" transform="rotate(60 30 30)"/></svg>
+    <svg viewBox="0 0 60 60" class="static-petal sp-4"><ellipse cx="30" cy="30" rx="10" ry="22" fill="#C9A2A2" opacity="0.4" transform="rotate(-50 30 30)"/></svg>
+  </div>
 
-  // ---------------------------------------------------------
-  // 3. Petals background canvas (motion §1-A)
-  // ---------------------------------------------------------
-  function setupPetals() {
-    if (isReduced()) return;
-    const canvas = $('.bg-petals');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  <button class="music-toggle" id="music-toggle" type="button" aria-label="배경 음악 재생/일시정지" aria-pressed="false">
+    <span class="ico-note" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path d="M9 18V5l12-2v13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="17" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+    </span>
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+  </button>
+  <audio id="bgm" src="audio/bgm.mp3" loop preload="none"></audio>
 
-    let W = 0, H = 0;
-    let petals = [];
-    let count = 24;
-    let running = true;
-    let frameCount = 0;
-    let measureStart = 0;
-    let rafId = null;
+  <main class="card" id="card">
+    <section class="hero" id="hero" aria-label="청첩장 메인">
+      <div class="hero-frame">
+        <img class="hero-illustration" src="images/hero-illustration.png" alt="더스티 로즈 장미와 세이지 유칼립투스 가지의 워터컬러 보태니컬 일러스트" fetchpriority="high" width="1024" height="1280">
+        <div class="hero-content">
+          <p class="hero-eyebrow script" data-hero-step="1">We&rsquo;re getting married</p>
+          <p class="hero-savedate en" data-hero-step="2">SAVE THE DATE<br><span class="hero-savedate-num">12 . 12 . 2026</span></p>
+          <h1 class="hero-names">
+            <span class="hero-name-ko" data-hero-step="3">배재형</span>
+            <span class="hero-amp script" data-hero-step="4">&amp;</span>
+            <span class="hero-name-ko" data-hero-step="5">이규원</span>
+          </h1>
+          <p class="hero-info" data-hero-step="6">
+            2026년 12월 12일 토요일 오후 18시 40분<br>
+            가천컨벤션
+          </p>
+        </div>
+      </div>
+      <div class="scroll-indicator" data-hero-step="7" aria-hidden="true">
+        <span></span><span></span>
+      </div>
+    </section>
 
-    function resize() {
-      W = window.innerWidth;
-      H = window.innerHeight;
-      canvas.width  = W * dpr;
-      canvas.height = H * dpr;
-      canvas.style.width  = W + 'px';
-      canvas.style.height = H + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
+    <section class="section greeting reveal" id="greeting" aria-labelledby="greeting-heading">
+      <p class="section-eyebrow en">INVITATION</p>
+      <h2 class="section-title" id="greeting-heading">초대합니다</h2>
+      <img class="divider" src="images/floral-divider.png" alt="" loading="lazy" width="1536" height="512">
+      <div class="greeting-body">
+        <p class="reveal-line">가을의 햇살이 길어지는 날,</p>
+        <p class="reveal-line">저희 두 사람이</p>
+        <p class="reveal-line">서로의 곁을 약속합니다.</p>
+        <p class="reveal-line spacer">&nbsp;</p>
+        <p class="reveal-line">조용히 피어난 마음을 모아</p>
+        <p class="reveal-line">한 걸음을 내딛는 자리에</p>
+        <p class="reveal-line">귀한 걸음 더해 주신다면,</p>
+        <p class="reveal-line">오래 기억될 하루가 되겠습니다.</p>
+      </div>
+      <p class="greeting-en script">A quiet promise, in autumn light.</p>
+    </section>
 
-    class Petal {
-      constructor(init) { this.reset(init); }
-      reset(init) {
-        this.x = Math.random() * W;
-        this.y = init ? Math.random() * H : -30;
-        this.size = 8 + Math.random() * 8;             // 8 ~ 16
-        this.rot = Math.random() * Math.PI * 2;
-        this.rotSpeed = (Math.random() - 0.5) * 0.03;
-        this.dur = 14000 + Math.random() * 8000;       // 14~22s
-        this.start = performance.now() - (init ? Math.random() * this.dur : 0);
-        this.swayAmp = 20 + Math.random() * 20;
-        this.swayPhase = Math.random() * Math.PI * 2;
-        this.opacity = 0.18 + Math.random() * 0.14;    // 0.18 ~ 0.32
-        this.color = Math.random() < 0.7 ? '#C9A2A2' : '#A8B59C';
-        this.baseX = this.x;
-      }
-      step(now) {
-        const t = (now - this.start) / this.dur;
-        if (t > 1) { this.reset(false); return; }
-        this.y = -30 + (H + 60) * t;
-        this.x = this.baseX + Math.sin(now / 1000 + this.swayPhase) * this.swayAmp;
-        this.rot += this.rotSpeed;
-      }
-      draw() {
-        ctx.save();
-        ctx.globalAlpha = this.opacity;
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.rot);
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.ellipse(0, 0, this.size * 0.4, this.size, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
-    }
+    <section class="section couple reveal" id="couple" aria-labelledby="couple-heading">
+      <p class="section-eyebrow en">THE COUPLE</p>
+      <h2 class="section-title" id="couple-heading">신랑 신부</h2>
 
-    function spawn() {
-      petals = Array.from({ length: count }, () => new Petal(true));
-    }
+      <div class="couple-grid">
+        <article class="couple-card couple-groom">
+          <p class="parents"><span>임경숙</span> 의 차남</p>
+          <p class="couple-name">배재형 <span class="en">JaeHyung Bae</span></p>
+          <p class="couple-bio">한 걸음씩, 진심을 닮아가는 사람.</p>
+        </article>
 
-    function loop(now) {
-      if (running) {
-        ctx.clearRect(0, 0, W, H);
-        for (let i = 0; i < petals.length; i++) {
-          petals[i].step(now);
-          petals[i].draw();
-        }
-        // 5초 후 fps 측정 → 50fps 미만 시 count 절반
-        frameCount++;
-        if (!measureStart) measureStart = now;
-        if (now - measureStart > 5000 && frameCount > 0) {
-          const fps = (frameCount / (now - measureStart)) * 1000;
-          if (fps < 50 && count > 12) {
-            count = 12;
-            spawn();
-          }
-          measureStart = 0;
-          frameCount = 0;
-        }
-      }
-      rafId = requestAnimationFrame(loop);
-    }
+        <span class="couple-amp script" aria-hidden="true">&amp;</span>
 
-    resize();
-    spawn();
-    rafId = requestAnimationFrame(loop);
-    window.addEventListener('resize', resize, { passive: true });
+        <article class="couple-card couple-bride">
+          <p class="parents"><span>이형달</span> · <span>정은숙</span> 의 차녀</p>
+          <p class="couple-name">이규원 <span class="en">GyuWon Lee</span></p>
+          <p class="couple-bio">곁에 머물수록 따뜻해지는 사람.</p>
+        </article>
+      </div>
+      <img class="divider divider-narrow" src="images/floral-divider.png" alt="" loading="lazy" width="1536" height="512">
+    </section>
 
-    // 페이지가 가려지면 일시정지 (배터리/CPU 절약)
-    document.addEventListener('visibilitychange', () => {
-      running = document.visibilityState !== 'hidden';
-    });
-  }
+    <section class="section calendar-section reveal" id="calendar" aria-labelledby="calendar-heading">
+      <img class="corner-deco" src="images/floral-corner.png" alt="" loading="lazy" width="1024" height="1024" aria-hidden="true">
+      <p class="section-eyebrow en">THE DAY</p>
+      <h2 class="section-title" id="calendar-heading">예식일</h2>
+      <p class="date-headline">
+        2026년 12월 12일 토요일<br>
+        오후 18시 40분
+      </p>
 
-  // ---------------------------------------------------------
-  // 4. Calendar render + D-day count-up (motion §3-1)
-  // ---------------------------------------------------------
-  function setupCalendar() {
-    const tbl = $('.cal');
-    if (!tbl) return;
-    const target = new Date(TARGET_DATE_STR + 'T00:00:00');
-    const y = target.getFullYear();
-    const m = target.getMonth();
-    const first = new Date(y, m, 1).getDay();
-    const last  = new Date(y, m + 1, 0).getDate();
-    const tbody = tbl.querySelector('tbody');
+      <table class="cal" data-target="2026-12-12" aria-label="2026년 12월 캘린더">
+        <caption class="cal-caption en">DECEMBER 2026</caption>
+        <thead>
+          <tr>
+            <th class="sun">SUN</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th class="sat">SAT</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
 
-    let html = '<tr>';
-    for (let i = 0; i < first; i++) html += '<td></td>';
-    for (let d = 1; d <= last; d++) {
-      const dow = (first + d - 1) % 7;
-      const cls = [];
-      if (d === target.getDate()) cls.push('today');
-      if (dow === 0) cls.push('sun');
-      if (dow === 6) cls.push('sat');
-      html += `<td${cls.length ? ` class="${cls.join(' ')}"` : ''}><span>${d}</span></td>`;
-      if ((first + d) % 7 === 0 && d !== last) html += '</tr><tr>';
-    }
-    html += '</tr>';
-    tbody.innerHTML = html;
+      <div class="dday-wrap" aria-live="polite">
+        <p class="dday-label">재형 · 규원의 결혼식까지</p>
+        <p class="dday">D - <span id="dday-num" data-target="0">0</span></p>
+        <p class="dday-sub">2026년 12월 12일 토요일 오후 18시 40분<br>가천컨벤션</p>
+      </div>
+    </section>
 
-    // D-day 계산: 자정 → 자정 기준으로 정수 일수만 비교 (시각 무관)
-    const ddayNum = $('#dday-num');
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const targetDay = new Date(y, m, target.getDate(), 0, 0, 0);
-    const diff = Math.round((targetDay - today) / (1000 * 60 * 60 * 24));
-    const ddayLabel = $('.dday-label');
-    const ddayBlock = $('.dday');
+    <section class="section gallery-section reveal" id="gallery" aria-labelledby="gallery-heading">
+      <p class="section-eyebrow en">OUR MOMENTS</p>
+      <h2 class="section-title" id="gallery-heading">우리의 순간</h2>
+      <p class="gallery-message">
+        함께 걸어온 시간들,<br>
+        그 안에 담긴 마음을<br>
+        나누고 싶습니다.
+      </p>
 
-    if (diff > 0) {
-      ddayNum.dataset.target = String(diff);
-      ddayNum.textContent = isReduced() ? String(diff) : '0';
-    } else if (diff === 0) {
-      ddayBlock.innerHTML = '<span class="script" style="font-size:24px;color:var(--color-primary)">오늘</span><br><span style="font-size:14px;color:var(--color-muted)">저희 두 사람의 약속이 시작됩니다</span>';
-      if (ddayLabel) ddayLabel.style.display = 'none';
-    } else {
-      ddayNum.dataset.target = String(-diff);
-      ddayNum.textContent = isReduced() ? String(-diff) : '0';
-      if (ddayLabel) ddayLabel.textContent = `함께 걸어가는 날 +`;
-      ddayBlock.firstChild.textContent = 'D + ';
-    }
+      <div class="gallery-stage" role="region" aria-label="사진 갤러리" aria-roledescription="carousel">
+        <ul class="gallery-track" id="gallery-track">
+          <li class="gallery-slide" aria-label="사진 1 / 5"><img src="images/gallery-placeholder-1.png" alt="더스티 로즈와 세이지 부케 워터컬러 — 갤러리 1" loading="eager" width="1024" height="1280"></li>
+          <li class="gallery-slide" aria-label="사진 2 / 5"><img src="images/gallery-placeholder-2.png" alt="유칼립투스 줄기와 장미 봉오리 워터컬러 — 갤러리 2" loading="lazy" width="1024" height="1280"></li>
+          <li class="gallery-slide" aria-label="사진 3 / 5"><img src="images/gallery-placeholder-3.png" alt="흩날리는 장미 꽃잎 워터컬러 — 갤러리 3" loading="lazy" width="1024" height="1280"></li>
+          <li class="gallery-slide" aria-label="사진 4 / 5"><img src="images/gallery-placeholder-4.png" alt="하단 보태니컬 군집 워터컬러 — 갤러리 4" loading="lazy" width="1024" height="1280"></li>
+          <li class="gallery-slide" aria-label="사진 5 / 5"><img src="images/gallery-placeholder-5.png" alt="원형 보태니컬 리스 워터컬러 — 갤러리 5" loading="lazy" width="1024" height="1280"></li>
+        </ul>
+        <button class="gallery-nav gallery-prev" type="button" aria-label="이전 사진">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="gallery-nav gallery-next" type="button" aria-label="다음 사진">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <ol class="gallery-dots" id="gallery-dots" aria-hidden="true">
+        <li class="active"></li><li></li><li></li><li></li><li></li>
+      </ol>
+      <p class="gallery-hint">사진을 누르면 크게 볼 수 있어요</p>
+    </section>
 
-    // count-up 애니메이션
-    if (!isReduced() && diff !== 0) {
-      const onIntersect = (entries, obs) => {
-        entries.forEach(e => {
-          if (!e.isIntersecting) return;
-          countUp(ddayNum, parseInt(ddayNum.dataset.target, 10), 1400);
-          obs.disconnect();
-        });
-      };
-      new IntersectionObserver(onIntersect, { threshold: 0.4 })
-        .observe($('#calendar'));
-    }
-  }
+    <section class="section venue reveal" id="venue" aria-labelledby="venue-heading">
+      <p class="section-eyebrow en">LOCATION</p>
+      <h2 class="section-title" id="venue-heading">오시는 길</h2>
+      <p class="venue-name">가천컨벤션</p>
+      <p class="venue-hall">단독홀</p>
+      <p class="venue-addr">경기 성남시 수정구 성남대로 1342</p>
 
-  function countUp(el, target, dur) {
-    const start = performance.now();
-    function tick(now) {
-      const t = clamp((now - start) / dur, 0, 1);
-      const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
-      el.textContent = Math.round(target * eased);
-      if (t < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }
+      <div id="map" class="map-static" aria-label="예식장 위치 지도">
+        <div class="map-pin">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 22s-7-7.58-7-12a7 7 0 1 1 14 0c0 4.42-7 12-7 12z" fill="currentColor"/><circle cx="12" cy="10" r="2.4" fill="#FBF7F3"/></svg>
+          <span>가천컨벤션</span>
+        </div>
+      </div>
 
-  // ---------------------------------------------------------
-  // 5. Gallery: swipe + nav + dots + auto-play (motion §3-2)
-  // ---------------------------------------------------------
-  let galleryAPI = null;
-  function setupGallery() {
-    const stage = $('.gallery-stage');
-    const track = $('#gallery-track');
-    if (!stage || !track) return;
-    const slides = $$('.gallery-slide', track);
-    const dots   = $$('#gallery-dots li');
-    const prev   = $('.gallery-prev');
-    const next   = $('.gallery-next');
-    const N = slides.length;
-    let idx = 0;
-    let auto = null;
-    let dragX = 0;
-    let dragStartX = 0;
-    let dragging = false;
-    let inViewport = false;
-    let userPaused = false;
+      <div class="venue-actions">
+        <a class="btn" href="https://kko.to/b6zJEs0I1W" target="_blank" rel="noopener">카카오맵</a>
+        <a class="btn" href="https://map.naver.com/p/entry/place/13538875?c=15.00,0,0,0,dh" target="_blank" rel="noopener">네이버지도</a>
+      </div>
 
-    function show(i, withTransition = true) {
-      idx = ((i % N) + N) % N;
-      track.style.transition = withTransition ? '' : 'none';
-      track.style.transform = `translateX(-${idx * 100}%)`;
-      dots.forEach((d, k) => d.classList.toggle('active', k === idx));
-      slides.forEach((s, k) => {
-        s.setAttribute('aria-hidden', k === idx ? 'false' : 'true');
-      });
-    }
-    function startAuto() {
-      if (isReduced() || userPaused || !inViewport) return;
-      stopAuto();
-      auto = setInterval(() => show(idx + 1), 5000);
-    }
-    function stopAuto() {
-      if (auto) { clearInterval(auto); auto = null; }
-    }
-    function pauseUser(durationMs = 10000) {
-      userPaused = true;
-      stopAuto();
-      clearTimeout(pauseUser._t);
-      pauseUser._t = setTimeout(() => { userPaused = false; startAuto(); }, durationMs);
-    }
+      <div class="directions">
+        <article>
+          <h3>지하철</h3>
+          <p>수인분당선 가천대역<br>도보 약 5분</p>
+        </article>
+        <article>
+          <h3>버스</h3>
+          <p>가천대역 환승정류장 하차</p>
+          <ul class="bus-list">
+            <li><span class="bus-tag bus-blue">간선</span> 302 · 303 · 422 · 452</li>
+            <li><span class="bus-tag bus-green">지선</span> 4425</li>
+            <li><span class="bus-tag bus-red">직행</span> 500-1 · 500-1A · 500-2 · 500-2N · 1117</li>
+          </ul>
+        </article>
+        <article>
+          <h3>자가용 / 주차</h3>
+          <p>경부고속도로 또는 중부고속도로 이용<br>가천대학교 인근 주차장 이용 권장<br><span class="muted">네비게이션: "가천컨벤션" 또는 "성남대로 1342" 검색</span></p>
+        </article>
+      </div>
+    </section>
 
-    // Touch events
-    track.addEventListener('touchstart', (e) => {
-      if (e.touches.length !== 1) return;
-      dragging = true;
-      dragStartX = e.touches[0].clientX;
-      dragX = 0;
-      track.style.transition = 'none';
-    }, { passive: true });
+    <section class="section account reveal" id="account" aria-labelledby="account-heading">
+      <img class="corner-deco corner-deco-flip" src="images/floral-corner.png" alt="" loading="lazy" width="1024" height="1024" aria-hidden="true">
+      <p class="section-eyebrow en">WITH HEART</p>
+      <h2 class="section-title" id="account-heading">마음 전하실 곳</h2>
+      <p class="account-message">
+        참석이 어려우신 분들을 위해<br>
+        마음 전하실 곳을 안내드립니다.<br><br>
+        따뜻한 축하의 마음,<br>
+        저희 두 사람 오래 간직하겠습니다.
+      </p>
 
-    track.addEventListener('touchmove', (e) => {
-      if (!dragging) return;
-      dragX = e.touches[0].clientX - dragStartX;
-      const w = stage.clientWidth || 1;
-      track.style.transform = `translateX(calc(-${idx * 100}% + ${dragX}px))`;
-    }, { passive: true });
+      <details class="acc-group" open>
+        <summary>신랑측 계좌번호</summary>
+        <ul class="acc-list">
+          <li>
+            <p class="acc-name">신랑 배재형</p>
+            <p class="acc-num">○○은행 ○○○-○○○○-○○○○</p>
+            <button type="button" class="copy-btn" data-copy="○○은행 ○○○-○○○○-○○○○ 배재형" aria-label="신랑 배재형 계좌번호 복사">
+              <span class="copy-default"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 15V5.5A1.5 1.5 0 0 1 8.5 4H18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>복사</span>
+              <span class="copy-done" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>완료</span>
+            </button>
+          </li>
+          <li>
+            <p class="acc-name">신랑 어머니 임경숙</p>
+            <p class="acc-num">○○은행 ○○○-○○○○-○○○○</p>
+            <button type="button" class="copy-btn" data-copy="○○은행 ○○○-○○○○-○○○○ 임경숙" aria-label="임경숙 계좌번호 복사">
+              <span class="copy-default"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 15V5.5A1.5 1.5 0 0 1 8.5 4H18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>복사</span>
+              <span class="copy-done" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>완료</span>
+            </button>
+          </li>
+        </ul>
+      </details>
 
-    track.addEventListener('touchend', () => {
-      if (!dragging) return;
-      dragging = false;
-      track.style.transition = '';
-      const threshold = 50;
-      if (dragX > threshold) { show(idx - 1); haptic(8); }
-      else if (dragX < -threshold) { show(idx + 1); haptic(8); }
-      else { show(idx); }
-      pauseUser(10000);
-    });
+      <details class="acc-group">
+        <summary>신부측 계좌번호</summary>
+        <ul class="acc-list">
+          <li>
+            <p class="acc-name">신부 이규원</p>
+            <p class="acc-num">○○은행 ○○○-○○○○-○○○○</p>
+            <button type="button" class="copy-btn" data-copy="○○은행 ○○○-○○○○-○○○○ 이규원" aria-label="신부 이규원 계좌번호 복사">
+              <span class="copy-default"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 15V5.5A1.5 1.5 0 0 1 8.5 4H18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>복사</span>
+              <span class="copy-done" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>완료</span>
+            </button>
+          </li>
+          <li>
+            <p class="acc-name">신부 아버지 이형달</p>
+            <p class="acc-num">○○은행 ○○○-○○○○-○○○○</p>
+            <button type="button" class="copy-btn" data-copy="○○은행 ○○○-○○○○-○○○○ 이형달" aria-label="이형달 계좌번호 복사">
+              <span class="copy-default"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 15V5.5A1.5 1.5 0 0 1 8.5 4H18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>복사</span>
+              <span class="copy-done" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>완료</span>
+            </button>
+          </li>
+          <li>
+            <p class="acc-name">신부 어머니 정은숙</p>
+            <p class="acc-num">○○은행 ○○○-○○○○-○○○○</p>
+            <button type="button" class="copy-btn" data-copy="○○은행 ○○○-○○○○-○○○○ 정은숙" aria-label="정은숙 계좌번호 복사">
+              <span class="copy-default"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 15V5.5A1.5 1.5 0 0 1 8.5 4H18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>복사</span>
+              <span class="copy-done" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>완료</span>
+            </button>
+          </li>
+        </ul>
+      </details>
+    </section>
 
-    // Click navigation
-    prev?.addEventListener('click', () => { show(idx - 1); haptic(8); pauseUser(10000); });
-    next?.addEventListener('click', () => { show(idx + 1); haptic(8); pauseUser(10000); });
+    <section class="section rsvp reveal" id="rsvp" aria-labelledby="rsvp-heading">
+      <p class="section-eyebrow en">RSVP</p>
+      <h2 class="section-title" id="rsvp-heading">참석 의사 전달</h2>
+      <p class="rsvp-message">
+        참석 의사를 미리 전해 주시면<br>
+        더욱 정성껏 자리를 준비하겠습니다.<br><br>
+        소중한 시간 내어 주시는 모든 분들께<br>
+        미리 감사의 마음을 전합니다.
+      </p>
+      <a class="btn primary" href="#" id="rsvp-link" target="_blank" rel="noopener" data-placeholder-url>마음 전하기</a>
+    </section>
 
-    // Click slide → lightbox
-    slides.forEach((slide, i) => {
-      const img = $('img', slide);
-      img?.addEventListener('click', () => {
-        if (Math.abs(dragX) > 5) return; // 스와이프 후 클릭 무시
-        openLightbox(i);
-      });
-    });
+    <section class="section guestbook reveal" id="guestbook" aria-labelledby="guestbook-heading">
+      <p class="section-eyebrow en">GUEST BOOK</p>
+      <h2 class="section-title" id="guestbook-heading">방명록</h2>
+      <p class="guestbook-message">
+        두 사람에게 전하고 싶은 한마디를<br>
+        남겨 주세요.<br><br>
+        오래도록 마음에 담아<br>
+        간직하겠습니다.
+      </p>
+      <a class="btn" href="#" id="guestbook-link" target="_blank" rel="noopener" data-placeholder-url>마음 남기기</a>
+    </section>
 
-    // Keyboard
-    stage.tabIndex = 0;
-    stage.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft')  { show(idx - 1); haptic(8); pauseUser(10000); }
-      if (e.key === 'ArrowRight') { show(idx + 1); haptic(8); pauseUser(10000); }
-    });
+    <section class="section share reveal" id="share" aria-labelledby="share-heading">
+      <p class="section-eyebrow en">SHARE</p>
+      <h2 class="section-title" id="share-heading">청첩장 공유</h2>
+      <p class="share-message">
+        저희의 소식을<br>
+        가까운 분들께도 함께 전해 주세요.
+      </p>
+      <div class="share-actions">
+        <button type="button" class="btn primary" id="share-kakao" aria-label="카카오톡으로 공유하기">카카오톡으로 공유하기</button>
+        <button type="button" class="btn" id="share-link" aria-label="청첩장 링크 복사하기">링크 복사하기</button>
+      </div>
+    </section>
 
-    // Auto-play viewport gating
-    new IntersectionObserver(([entry]) => {
-      inViewport = entry.isIntersecting;
-      if (inViewport) startAuto(); else stopAuto();
-    }, { threshold: 0.4 }).observe(stage);
+    <footer class="card-footer">
+      <p class="script">Thank you</p>
+      <p class="footer-line">2026 . 12 . 12</p>
+      <p class="footer-line en">재형 &amp; 규원</p>
+    </footer>
+  </main>
 
-    show(0);
-    galleryAPI = { show, count: N };
-  }
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="사진 확대 보기">
+    <button class="lightbox-close" id="lightbox-close" type="button" aria-label="닫기">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <img class="lightbox-img" id="lightbox-img" alt="">
+  </div>
 
-  // ---------------------------------------------------------
-  // 6. Lightbox + pinch zoom + double-tap (motion §3-5)
-  // ---------------------------------------------------------
-  let lightboxAPI = null;
-  function setupLightbox() {
-    const lb = $('#lightbox');
-    const img = $('#lightbox-img');
-    const close = $('#lightbox-close');
-    if (!lb || !img || !close) return;
+  <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
 
-    const slides = $$('.gallery-slide img');
-    let scale = 1;
-    let originX = 0, originY = 0;
-    let lastDist = 0;
-    let lastTap = 0;
-    let panStart = null;
-    let prevFocus = null;
-    let currentIdx = 0;
-
-    function setTransform() {
-      img.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
-    }
-    function reset() {
-      scale = 1; originX = 0; originY = 0;
-      img.style.transform = '';
-    }
-
-    function open(i) {
-      currentIdx = i;
-      img.src = slides[i].src;
-      img.alt = slides[i].alt || '';
-      lb.hidden = false;
-      requestAnimationFrame(() => lb.classList.add('is-open'));
-      document.body.style.overflow = 'hidden';
-      prevFocus = document.activeElement;
-      close.focus();
-      haptic(15);
-    }
-    function closeFn() {
-      lb.classList.remove('is-open');
-      setTimeout(() => {
-        lb.hidden = true;
-        reset();
-        document.body.style.overflow = '';
-        if (prevFocus && prevFocus.focus) prevFocus.focus();
-      }, isReduced() ? 0 : 220);
-    }
-
-    close.addEventListener('click', closeFn);
-    lb.addEventListener('click', (e) => { if (e.target === lb) closeFn(); });
-    document.addEventListener('keydown', (e) => {
-      if (lb.hidden) return;
-      if (e.key === 'Escape') closeFn();
-      if (e.key === 'ArrowLeft' && galleryAPI) {
-        currentIdx = (currentIdx - 1 + galleryAPI.count) % galleryAPI.count;
-        img.src = slides[currentIdx].src; reset();
-        galleryAPI.show(currentIdx);
-      }
-      if (e.key === 'ArrowRight' && galleryAPI) {
-        currentIdx = (currentIdx + 1) % galleryAPI.count;
-        img.src = slides[currentIdx].src; reset();
-        galleryAPI.show(currentIdx);
-      }
-    });
-
-    // Pinch / double-tap zoom
-    img.addEventListener('touchstart', (e) => {
-      lb.classList.add('is-zooming');
-      if (e.touches.length === 2) {
-        const [a, b] = e.touches;
-        lastDist = Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
-      } else if (e.touches.length === 1) {
-        const now = Date.now();
-        if (now - lastTap < 300) {
-          scale = scale > 1.05 ? 1 : 2.4;
-          originX = 0; originY = 0;
-          lb.classList.remove('is-zooming'); // smooth transition
-          setTransform();
-          haptic(10);
-        } else {
-          if (scale > 1) {
-            panStart = { x: e.touches[0].clientX - originX, y: e.touches[0].clientY - originY };
-          }
-        }
-        lastTap = now;
-      }
-    }, { passive: true });
-
-    img.addEventListener('touchmove', (e) => {
-      if (e.touches.length === 2) {
-        const [a, b] = e.touches;
-        const d = Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
-        if (lastDist > 0) {
-          scale = clamp(scale * (d / lastDist), 1, 3);
-          setTransform();
-        }
-        lastDist = d;
-      } else if (e.touches.length === 1 && panStart && scale > 1) {
-        originX = e.touches[0].clientX - panStart.x;
-        originY = e.touches[0].clientY - panStart.y;
-        setTransform();
-      }
-    }, { passive: true });
-
-    img.addEventListener('touchend', (e) => {
-      if (e.touches.length === 0) {
-        lastDist = 0;
-        panStart = null;
-        if (scale < 1.05) reset();
-        lb.classList.remove('is-zooming');
-      }
-    });
-
-    lightboxAPI = { open };
-    window.openLightbox = open; // 갤러리에서 호출
-  }
-
-  // local helper bridge
-  function openLightbox(i) {
-    if (lightboxAPI) lightboxAPI.open(i);
-  }
-
-  // ---------------------------------------------------------
-  // 7. Copy account number + toast (motion §3-3)
-  // ---------------------------------------------------------
-  function setupCopy() {
-    $$('.copy-btn').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const txt = btn.dataset.copy || '';
-        let ok = false;
-        try {
-          await navigator.clipboard.writeText(txt);
-          ok = true;
-        } catch (e) {
-          try {
-            const ta = document.createElement('textarea');
-            ta.value = txt;
-            ta.setAttribute('readonly', '');
-            ta.style.position = 'fixed';
-            ta.style.left = '-9999px';
-            document.body.appendChild(ta);
-            ta.select();
-            ok = document.execCommand('copy');
-            document.body.removeChild(ta);
-          } catch (e2) { ok = false; }
-        }
-        if (ok) {
-          btn.classList.add('is-copied');
-          haptic(15);
-          showToast('계좌번호가 복사되었습니다');
-          setTimeout(() => btn.classList.remove('is-copied'), 1400);
-        } else {
-          showToast('복사에 실패했습니다. 직접 선택해주세요');
-        }
-      });
-    });
-  }
-
-  // ---------------------------------------------------------
-  // 8. Toast
-  // ---------------------------------------------------------
-  let toastTimer = null;
-  function showToast(msg) {
-    const t = $('#toast');
-    if (!t) return;
-    t.textContent = msg;
-    t.hidden = false;
-    requestAnimationFrame(() => t.classList.add('is-visible'));
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-      t.classList.remove('is-visible');
-      setTimeout(() => { t.hidden = true; }, 320);
-    }, 1700);
-  }
-
-  // ---------------------------------------------------------
-  // 9. Music toggle (motion §3-6)
-  // ---------------------------------------------------------
-  function setupMusic() {
-    const btn = $('#music-toggle');
-    const audio = $('#bgm');
-    if (!btn || !audio) return;
-    audio.volume = 0;
-
-    function fadeVolume(target, dur) {
-      const start = audio.volume;
-      const t0 = performance.now();
-      function tick(now) {
-        const t = clamp((now - t0) / dur, 0, 1);
-        audio.volume = start + (target - start) * t;
-        if (t < 1) requestAnimationFrame(tick);
-        else if (target === 0) audio.pause();
-      }
-      requestAnimationFrame(tick);
-    }
-
-    btn.addEventListener('click', async () => {
-      btn.classList.remove('is-rippling');
-      void btn.offsetWidth;
-      btn.classList.add('is-rippling');
-      haptic(10);
-      try {
-        if (audio.paused) {
-          await audio.play();
-          btn.setAttribute('aria-pressed', 'true');
-          fadeVolume(0.4, 1500);
-        } else {
-          fadeVolume(0, 600);
-          btn.setAttribute('aria-pressed', 'false');
-        }
-      } catch (e) {
-        showToast('음원 파일을 찾을 수 없어요. (audio/bgm.mp3)');
-      }
-    });
-  }
-
-  // ---------------------------------------------------------
-  // 10. Share (Kakao / link copy) (motion §3-7)
-  // ---------------------------------------------------------
-  function setupShare() {
-    const btnLink  = $('#share-link');
-    const btnKakao = $('#share-kakao');
-
-    btnLink?.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(location.href);
-        haptic(15);
-        showToast('청첩장 링크가 복사되었습니다');
-      } catch (e) {
-        showToast('복사에 실패했습니다');
-      }
-    });
-
-    btnKakao?.addEventListener('click', () => {
-      haptic(15);
-      // Kakao SDK 사용 가능 시
-      if (window.Kakao && KAKAO_JS_KEY) {
-        try {
-          if (!window.Kakao.isInitialized()) window.Kakao.init(KAKAO_JS_KEY);
-          window.Kakao.Share.sendDefault({
-            objectType: 'feed',
-            content: {
-              title: SHARE_TITLE,
-              description: SHARE_DESC,
-              imageUrl: SHARE_IMAGE,
-              link: { mobileWebUrl: location.href, webUrl: location.href }
-            },
-            buttons: [
-              { title: '청첩장 보기', link: { mobileWebUrl: location.href, webUrl: location.href } }
-            ]
-          });
-          return;
-        } catch (e) { /* fallthrough */ }
-      }
-      // Web Share API 폴백
-      if (navigator.share) {
-        navigator.share({ title: SHARE_TITLE, text: SHARE_DESC, url: location.href }).catch(() => {});
-        return;
-      }
-      // 최종 폴백: 링크 복사
-      navigator.clipboard?.writeText(location.href);
-      showToast('청첩장 링크가 복사되었습니다');
-    });
-  }
-
-  // ---------------------------------------------------------
-  // 11. RSVP / Guestbook placeholder URL handling
-  // ---------------------------------------------------------
-  function setupExternalLinks() {
-    const rsvp = $('#rsvp-link');
-    const gb   = $('#guestbook-link');
-    if (rsvp) {
-      if (RSVP_FORM_URL) {
-        rsvp.href = RSVP_FORM_URL;
-        rsvp.removeAttribute('data-placeholder-url');
-      } else {
-        rsvp.addEventListener('click', (e) => {
-          e.preventDefault();
-          showToast('참석 의사 폼은 준비 중입니다');
-        });
-      }
-    }
-    if (gb) {
-      if (GUESTBOOK_URL) {
-        gb.href = GUESTBOOK_URL;
-        gb.removeAttribute('data-placeholder-url');
-      } else {
-        gb.addEventListener('click', (e) => {
-          e.preventDefault();
-          showToast('방명록은 준비 중입니다');
-        });
-      }
-    }
-  }
-
-  // ---------------------------------------------------------
-  // INIT
-  // ---------------------------------------------------------
-  function init() {
-    setupHero();
-    setupReveal();
-    setupPetals();
-    setupCalendar();
-    setupGallery();
-    setupLightbox();
-    setupCopy();
-    setupMusic();
-    setupShare();
-    setupExternalLinks();
-
-    // reduced-motion 변경 시 단순 reload (모션 일관성 보장)
-    if (reducedMotion.addEventListener) {
-      reducedMotion.addEventListener('change', () => location.reload());
-    } else if (reducedMotion.addListener) {
-      reducedMotion.addListener(() => location.reload());
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-})();
+  <script src="script.js"></script>
+</body>
+</html>
