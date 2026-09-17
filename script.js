@@ -587,10 +587,10 @@
               title: SHARE_TITLE,
               description: SHARE_DESC,
               imageUrl: SHARE_IMAGE,
-              link: { mobileWebUrl: location.href, webUrl: location.href }
+              link: { mobileWebUrl: "https://zmrkfjaqmf.github.io/wedding-letter/", webUrl: "https://zmrkfjaqmf.github.io/wedding-letter/" }
             },
             buttons: [
-              { title: '청첩장 보기', link: { mobileWebUrl: location.href, webUrl: location.href } }
+              { title: '청첩장 보기', link: { mobileWebUrl: "https://zmrkfjaqmf.github.io/wedding-letter/", webUrl: "https://zmrkfjaqmf.github.io/wedding-letter/" } }
             ]
           });
           return;
@@ -598,7 +598,7 @@
       }
       // Web Share API 폴백
       if (navigator.share) {
-        navigator.share({ title: SHARE_TITLE, text: SHARE_DESC, url: location.href }).catch(() => {});
+        navigator.share({ title: SHARE_TITLE, text: SHARE_DESC, url: "https://zmrkfjaqmf.github.io/wedding-letter/" }).catch(() => {});
         return;
       }
       // 최종 폴백: 링크 복사
