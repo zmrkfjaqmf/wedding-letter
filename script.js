@@ -14,7 +14,7 @@
   const GUESTBOOK_URL    = ''; // 미사용
   const SHARE_TITLE      = '배재형 ♡ 이규원 결혼합니다';
   const SHARE_DESC       = '2026년 12월 12일 토요일 18시 40분\n가천컨벤션 · 비전타워 5층';
-  const SHARE_IMAGE      = location.origin + location.pathname.replace(/\/[^/]*$/, '/') + 'images/1_DSC04316.jpg';
+  const SHARE_IMAGE      = location.origin + location.pathname.replace(/\/[^/]*$/, '/') + 'images/2_DSC03501.jpg';
   const TARGET_DATE_STR  = '2026-12-12';
   const TARGET_HOUR      = 18;
 
