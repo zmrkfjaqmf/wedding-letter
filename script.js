@@ -578,7 +578,7 @@
     // 카카오톡 공유 버튼
     btnKakao?.addEventListener('click', () => {
       haptic(15);
-      const SHARE_URL = 'https://zmrkfjaqmf.github.io/wedding-letter/';
+      const SHARE_URL = 'https://jaehyung-gyuwon.kro.kr/';
 
       if (window.Kakao && KAKAO_JS_KEY) {
         try {
