@@ -1,6 +1,6 @@
 /* =========================================================
    Wedding Invitation — script.js
-   김민준 ♡ 박서연 (2026.10.17)
+   배재형 ♡ 이규원 (2026.12.12)
    Vanilla JS only. Implements motion-spec.md Must/Should items.
    ========================================================= */
 (function () {
@@ -9,12 +9,12 @@
   // ---------------------------------------------------------
   // PLACEHOLDERS — 실제 운영 시 아래 값을 채워주세요.
   // ---------------------------------------------------------
-  const KAKAO_JS_KEY     = ''; // placeholder: 카카오 JavaScript 키 (https://developers.kakao.com/)
-  const RSVP_FORM_URL    = ''; // placeholder: Tally / Google Form / FormSubmit URL
-  const GUESTBOOK_URL    = ''; // placeholder: 외부 방명록 폼 URL
+  const KAKAO_JS_KEY     = 'fb630af5d0c6c8e374570d842b4cbda2';
+  const RSVP_FORM_URL    = ''; // 미사용
+  const GUESTBOOK_URL    = ''; // 미사용
   const SHARE_TITLE      = '배재형 ♡ 이규원 결혼합니다';
-  const SHARE_DESC       = '2026년 12월 12일 토요일 오후 6시 40분\n가천컨벤션';
-  const SHARE_IMAGE      = location.origin + location.pathname.replace(/\/[^/]*$/, '/') + 'images/og-thumbnail.png';
+  const SHARE_DESC       = '2026년 12월 12일 토요일 18시 40분\n가천컨벤션 · 비전타워 5층';
+  const SHARE_IMAGE      = location.origin + location.pathname.replace(/\/[^/]*$/, '/') + 'images/1_DSC04316.jpg';
   const TARGET_DATE_STR  = '2026-12-12';
   const TARGET_HOUR      = 18;
 

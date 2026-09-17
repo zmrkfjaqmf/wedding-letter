@@ -227,11 +227,27 @@ body::before {
   min-height: 100vh;
   overflow: hidden;
 }
+.hero-frame::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 48%;
+  background: linear-gradient(
+    to top,
+    rgba(251, 247, 243, 0.92) 0%,
+    rgba(251, 247, 243, 0.55) 45%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
 .hero-illustration {
   width: 100%;
   height: 100vh;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 20%;
   display: block;
   animation: kenBurns var(--dur-ken-burns) ease-in-out infinite alternate;
   will-change: transform;
@@ -250,6 +266,7 @@ body::before {
   justify-content: flex-end;
   padding: 0 var(--side-pad) 22vh;
   text-align: center;
+  z-index: 2;
 }
 
 .hero-eyebrow {
@@ -349,6 +366,7 @@ body::before {
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  z-index: 2;
 }
 .scroll-indicator span {
   display: block;
@@ -788,11 +806,11 @@ body::before {
   margin-bottom: 8px;
   letter-spacing: 0.04em;
 }
-.directions p {
-  font-family: var(--font-ko-sans);
-  font-size: 13.5px;
-  color: var(--color-text);
-  line-height: 1.7;
+.directions p + p {
+  margin-top: 10px;
+}
+.bus-list + .muted {
+  margin-top: 8px;
 }
 .bus-list {
   list-style: none;
