@@ -575,37 +575,46 @@
       }
     });
 
+    // 카카오톡 공유 버튼
     btnKakao?.addEventListener('click', () => {
       haptic(15);
-      // Kakao SDK 사용 가능 시
+      const SHARE_URL = 'https://zmrkfjaqmf.github.io/wedding-letter/';
+
       if (window.Kakao && KAKAO_JS_KEY) {
         try {
           if (!window.Kakao.isInitialized()) window.Kakao.init(KAKAO_JS_KEY);
+          
           window.Kakao.Share.sendDefault({
             objectType: 'feed',
             content: {
               title: SHARE_TITLE,
               description: SHARE_DESC,
               imageUrl: SHARE_IMAGE,
-              link: { mobileWebUrl: "https://zmrkfjaqmf.github.io/wedding-letter/", webUrl: "https://zmrkfjaqmf.github.io/wedding-letter/" }
+              link: {
+                mobileWebUrl: SHARE_URL,
+                webUrl: SHARE_URL
+              }
             },
             buttons: [
-              { title: '청첩장 보기', link: { mobileWebUrl: "https://zmrkfjaqmf.github.io/wedding-letter/", webUrl: "https://zmrkfjaqmf.github.io/wedding-letter/" } }
+              {
+                title: '청첩장 보기',
+                link: {
+                  mobileWebUrl: SHARE_URL,
+                  webUrl: SHARE_URL
+                }
+              }
             ]
           });
           return;
-        } catch (e) { /* fallthrough */ }
+        } catch (e) {
+          console.error('카카오 공유 에러:', e);
+        }
       }
-      // Web Share API 폴백
-      if (navigator.share) {
-        navigator.share({ title: SHARE_TITLE, text: SHARE_DESC, url: "https://zmrkfjaqmf.github.io/wedding-letter/" }).catch(() => {});
-        return;
-      }
-      // 최종 폴백: 링크 복사
-      navigator.clipboard?.writeText(location.href);
+
+      // 카카오 SDK 로드 실패 시 폴백 (링크 복사)
+      navigator.clipboard?.writeText(SHARE_URL);
       showToast('청첩장 링크가 복사되었습니다');
     });
-  }
 
   // ---------------------------------------------------------
   // 11. RSVP / Guestbook placeholder URL handling
