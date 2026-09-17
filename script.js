@@ -12,11 +12,11 @@
   const KAKAO_JS_KEY     = ''; // placeholder: 카카오 JavaScript 키 (https://developers.kakao.com/)
   const RSVP_FORM_URL    = ''; // placeholder: Tally / Google Form / FormSubmit URL
   const GUESTBOOK_URL    = ''; // placeholder: 외부 방명록 폼 URL
-  const SHARE_TITLE      = '김민준 ♡ 박서연 결혼합니다';
-  const SHARE_DESC       = '2026년 10월 17일 토요일 오후 2시\n그랜드 인터컨티넨탈 서울 그랜드볼룸';
+  const SHARE_TITLE      = '배재형 ♡ 이규원 결혼합니다';
+  const SHARE_DESC       = '2026년 12월 12일 토요일 오후 6시 40분\n가천컨벤션';
   const SHARE_IMAGE      = location.origin + location.pathname.replace(/\/[^/]*$/, '/') + 'images/og-thumbnail.png';
-  const TARGET_DATE_STR  = '2026-10-17';
-  const TARGET_HOUR      = 14;
+  const TARGET_DATE_STR  = '2026-12-12';
+  const TARGET_HOUR      = 18;
 
   // ---------------------------------------------------------
   // HELPERS
