@@ -1221,3 +1221,26 @@ body::before {
   .couple-card, .couple-amp { opacity: 1 !important; transform: none !important; }
   .gallery-dots { opacity: 1 !important; }
 }
+
+
+/* 영문 필기체 및 날짜 */
+.hero-eyebrow,
+.hero-savedate,
+.hero-savedate-num,
+.hero-info {
+  color: #FFFFFF !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* 글자 주변에 진한 그림자 추가 */
+}
+
+/* 한글 이름 */
+.hero-name-ko,
+.hero-amp {
+  color: #FFFFFF !important;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+}
+
+/* 하단 화살표 */
+.scroll-indicator span {
+  border-right-color: #FFFFFF !important;
+  border-bottom-color: #FFFFFF !important;
+}
