@@ -263,7 +263,8 @@ body::before {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 30em;
+  justify-content: flex-end;
+  padding-bottom: 3.5em;
   text-align: center;
   z-index: 2;
 }
