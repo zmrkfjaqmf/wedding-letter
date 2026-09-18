@@ -9,7 +9,7 @@
   // ---------------------------------------------------------
   // PLACEHOLDERS — 실제 운영 시 아래 값을 채워주세요.
   // ---------------------------------------------------------
-  const KAKAO_JS_KEY     = '640b16780cf9689d1fd0dc02ea1396a8';
+  const KAKAO_JS_KEY     = '68da8e02014b2b0ef007a819ba05da28';
   const RSVP_FORM_URL    = ''; // 미사용
   const GUESTBOOK_URL    = ''; // 미사용
   const SHARE_TITLE      = '배재형 ♡ 이규원 결혼합니다';
