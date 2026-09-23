@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5">
+  <meta name="theme-color" content="#FBF7F3">
+  <title>재형 ♡ 규원 — 2026.12.12 결혼합니다</title>
+
+  <meta name="description" content="배재형 이규원의 결혼식에 귀한 걸음 부탁드립니다. 2026년 12월 12일 토요일 18시 40분, 가천컨벤션.">
+
+  <!-- Open Graph / Kakao share preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="배재형 ♡ 이규원 결혼합니다">
+  <meta property="og:description" content="2026년 12월 12일 토요일 18시 40분 · 가천컨벤션">
+  <meta property="og:image" content="images/2_DSC03501.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="1280">
+  
+  <meta property="og:url" content="https://jaehyung-gyuwon.kro.kr/">
+  <meta property="og:locale" content="ko_KR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="배재형 ♡ 이규원 결혼합니다">
+  <meta name="twitter:description" content="2026년 12월 12일 토요일 18시 40분 · 가천컨벤션">
+  <meta name="twitter:image" content="images/1_DSC04316.jpg">
+
+  <!-- Fonts (Google Fonts CDN) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 배경 모션: 꽃잎 파티클 캔버스 (prefers-reduced-motion에서는 숨김) -->
+  <canvas class="bg-petals" aria-hidden="true"></canvas>
+
+  <!-- prefers-reduced-motion 정적 SVG 꽃잎 4개 -->
+  <div class="bg-petals-static" aria-hidden="true">
+    <svg viewBox="0 0 60 60" class="static-petal sp-1"><ellipse cx="30" cy="30" rx="10" ry="22" fill="#C9A2A2" opacity="0.4" transform="rotate(35 30 30)"/></svg>
+    <svg viewBox="0 0 60 60" class="static-petal sp-2"><ellipse cx="30" cy="30" rx="10" ry="22" fill="#A8B59C" opacity="0.4" transform="rotate(-25 30 30)"/></svg>
+    <svg viewBox="0 0 60 60" class="static-petal sp-3"><ellipse cx="30" cy="30" rx="10" ry="22" fill="#A8B59C" opacity="0.4" transform="rotate(60 30 30)"/></svg>
+    <svg viewBox="0 0 60 60" class="static-petal sp-4"><ellipse cx="30" cy="30" rx="10" ry="22" fill="#C9A2A2" opacity="0.4" transform="rotate(-50 30 30)"/></svg>
+  </div>
+
+  <!-- 음악 토글 (BGM placeholder) -->
+  <button class="music-toggle" id="music-toggle" type="button" aria-label="배경 음악 재생/일시정지" aria-pressed="false">
+    <span class="ico-note" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path d="M9 18V5l12-2v13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+    </span>
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+  </button>
+  <!-- TODO: BGM — audio/bgm.mp3 파일을 추가하면 음악 토글이 동작합니다 -->
+  <audio id="bgm" src="audio/bgm.mp3" loop preload="none"></audio>
+
+  <main class="card" id="card">
+
+    <!-- 1. HERO -->
+    <section class="hero" id="hero" aria-label="청첩장 메인">
+      <div class="hero-frame">
+        <img class="hero-illustration"
+             src="images/2_DSC03501.jpg"
+             alt="배재형과 이규원의 웨딩 사진"
+             fetchpriority="high"
+             width="1024" height="1280">
+        <div class="hero-content">
+          <p class="hero-eyebrow script" data-hero-step="1">We&rsquo;re getting married</p>
+          <p class="hero-savedate en" data-hero-step="2">SAVE THE DATE<br><span class="hero-savedate-num">12 . 12 . 2026</span></p>
+          <h1 class="hero-names">
+            <span class="hero-name-ko" data-hero-step="3">배재형</span>
+            <span class="hero-amp script" data-hero-step="4">&amp;</span>
+            <span class="hero-name-ko" data-hero-step="5">이규원</span>
+          </h1>
+          <p class="hero-info" data-hero-step="6">
+            2026년 12월 12일 토요일 18시 40분<br>
+            가천컨벤션 · 비전타워 5층
+          </p>
+        </div>
+      </div>
+      <div class="scroll-indicator" data-hero-step="7" aria-hidden="true">
+        <span></span><span></span>
+      </div>
+    </section>
+
+    <!-- 2. GREETING -->
+    <section class="section greeting reveal" id="greeting" aria-labelledby="greeting-heading">
+      <p class="section-eyebrow en">INVITATION</p>
+      <h2 class="section-title" id="greeting-heading">초대합니다</h2>
+      <img class="divider" src="images/floral-divider.png" alt="" loading="lazy" width="1536" height="512">
+      <div class="greeting-body">
+        <p class="reveal-line">서로의 평범했던 일상이</p>
+        <p class="reveal-line">서로를 만나 특별해졌습니다.</p>
+        <p class="reveal-line">이제 같은 곳을 바라보며</p>
+        <p class="reveal-line">하나의 길을 걸어가려 합니다.</p>
+        <p class="reveal-line spacer">&nbsp;</p>
+        <p class="reveal-line">저희의 뜻깊은 시작의 자리에</p>
+        <p class="reveal-line">함께해 주시는 축복의 마음,</p>
+        <p class="reveal-line">가슴 깊이 간직하며 살겠습니다.</p>
+      </div>
+      <p class="greeting-en script">A quiet promise, in autumn light.</p>
+    </section>
+
+    <!-- 3. COUPLE INTRO -->
+    <section class="section couple reveal" id="couple" aria-labelledby="couple-heading">
+      <p class="section-eyebrow en">THE COUPLE</p>
+      <h2 class="section-title" id="couple-heading">신랑 신부</h2>
+
+      <div class="couple-grid">
+        <article class="couple-card couple-groom">
+          <p class="parents"><span>임경숙</span> 의 차남</p>
+          <p class="couple-name">배재형 <span class="en">Jaehyung Bae</span></p>
+          <p class="couple-bio">한 걸음씩, 진심을 닮아가는 사람.</p>
+        </article>
+
+        <span class="couple-amp script" aria-hidden="true">&amp;</span>
+
+        <article class="couple-card couple-bride">
+          <p class="parents"><span>이형달</span> · <span>정은숙</span> 의 차녀</p>
+          <p class="couple-name">이규원 <span class="en">Gyuwon Lee</span></p>
+          <p class="couple-bio">곁에 머물수록 따뜻해지는 사람.</p>
+        </article>
+      </div>
+      <img class="divider divider-narrow" src="images/floral-divider.png" alt="" loading="lazy" width="1536" height="512">
+    </section>
+
+    <!-- 4. CALENDAR + D-DAY -->
+    <section class="section calendar-section reveal" id="calendar" aria-labelledby="calendar-heading">
+      <img class="corner-deco" src="images/floral-corner.png" alt="" loading="lazy" width="1024" height="1024" aria-hidden="true">
+      <p class="section-eyebrow en">THE DAY</p>
+      <h2 class="section-title" id="calendar-heading">예식일</h2>
+      <p class="date-headline">
+        2026년 12월 12일 토요일<br>
+        18시 40분
+      </p>
+
+      <table class="cal" data-target="2026-12-12" aria-label="2026년 12월 캘린더">
+        <caption class="cal-caption en">DECEMBER 2026</caption>
+        <thead>
+          <tr>
+            <th class="sun">SUN</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th class="sat">SAT</th>
+          </tr>
+        </thead>
+        <tbody><!-- JS render --></tbody>
+      </table>
+
+      <div class="dday-wrap" aria-live="polite">
+        <p class="dday-label">재형 · 규원의 결혼식까지</p>
+        <p class="dday">D - <span id="dday-num" data-target="0">0</span></p>
+        <p class="dday-sub">2026년 12월 12일 토요일 18시 40분<br>가천컨벤션 · 비전타워 5층</p>
+      </div>
+    </section>
+
+    <!-- 5. GALLERY -->
+    <section class="section gallery-section reveal" id="gallery" aria-labelledby="gallery-heading">
+      <p class="section-eyebrow en">OUR MOMENTS</p>
+      <h2 class="section-title" id="gallery-heading">우리의 순간</h2>
+      <p class="gallery-message">
+        함께 걸어온 시간들,<br>
+        그 안에 담긴 마음을<br>
+        나누고 싶습니다.
+      </p>
+
+      <div class="gallery-stage" role="region" aria-label="사진 갤러리" aria-roledescription="carousel">
+        <ul class="gallery-track" id="gallery-track">
+          <li class="gallery-slide" aria-label="사진 1 / 5">
+            <img src="images/1_DSC04316.jpg" alt="배재형과 이규원 웨딩 사진 1" loading="eager" width="1024" height="1280">
+          </li>
+          <li class="gallery-slide" aria-label="사진 2 / 5">
+            <img src="images/2_DSC03501.jpg" alt="배재형과 이규원 웨딩 사진 2" loading="lazy" width="1024" height="1280">
+          </li>
+          <li class="gallery-slide" aria-label="사진 3 / 5">
+            <img src="images/3_DSC03526.jpg" alt="이규원 웨딩 사진 3" loading="lazy" width="1024" height="1280">
+          </li>
+          <li class="gallery-slide" aria-label="사진 4 / 5">
+            <img src="images/4_DSC03456.jpg" alt="배재형과 이규원 웨딩 사진 4" loading="lazy" width="1024" height="1280">
+          </li>
+          <li class="gallery-slide" aria-label="사진 5 / 5">
+            <img src="images/5_DSC03823.jpg" alt="이규원 웨딩 사진 5" loading="lazy" width="1024" height="1280">
+          </li>
+        </ul>
+        <button class="gallery-nav gallery-prev" type="button" aria-label="이전 사진">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="gallery-nav gallery-next" type="button" aria-label="다음 사진">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <ol class="gallery-dots" id="gallery-dots" aria-hidden="true">
+        <li class="active"></li><li></li><li></li><li></li><li></li>
+      </ol>
+      <p class="gallery-hint">사진을 누르면 크게 볼 수 있어요</p>
+    </section>
+
+    <!-- 6. VENUE -->
+    <section class="section venue reveal" id="venue" aria-labelledby="venue-heading">
+      <p class="section-eyebrow en">LOCATION</p>
+      <h2 class="section-title" id="venue-heading">오시는 길</h2>
+      <p class="venue-name">가천컨벤션</p>
+      <p class="venue-hall">비전타워 5층</p>
+      <p class="venue-addr">경기 성남시 수정구 성남대로 1342</p>
+
+      <div id="map" class="map-static" aria-label="예식장 위치 지도">
+        <div class="map-pin">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 22s-7-7.58-7-12a7 7 0 1 1 14 0c0 4.42-7 12-7 12z" fill="currentColor"/><circle cx="12" cy="10" r="2.4" fill="#FBF7F3"/></svg>
+          <span>가천컨벤션</span>
+        </div>
+      </div>
+
+      <div class="venue-actions">
+        <a class="btn" href="https://kko.to/b6zJEs0I1W" target="_blank" rel="noopener">카카오맵</a>
+        <a class="btn" href="https://map.naver.com/p/entry/place/13538875?c=15.00,0,0,0,dh" target="_blank" rel="noopener">네이버지도</a>
+        <a class="btn" href="https://tmap.life/bf0c5347" target="_blank" rel="noopener">T map</a>
+      </div>
+
+      <div class="directions">
+        <article>
+          <h3>지하철</h3>
+          <p>수인분당선 가천대역<br>도보로 이동</p>
+        </article>
+        <article>
+          <h3>버스</h3>
+          <p>가천대역 · 가천대학교 정류장</p>
+          <ul class="bus-list">
+            <li><span class="bus-tag bus-green">일반</span> 30 · 100 · 119 · 119-1 · 311 · 357</li>
+            <li><span class="bus-tag bus-green">지선</span> 4425</li>
+            <li><span class="bus-tag bus-blue">간선</span> 302 · 303 · 422 · 452</li>
+            <li><span class="bus-tag bus-red">직행</span> 500-1 · 500-1A · 500-2 · 500-2N · 1117</li>
+            <li><span class="bus-tag bus-red">광역</span> 1112 · 1309 · 1312 · 1650 · 1801 · 3000 · 4305 · 8109 · 8135 · 8143 · 8145 · 8147 · 8401 · 8409 · G2100 · G6009</li>
+          </ul>
+          <p class="muted">수도권 외곽고속순환도로 가천대역 환승정류장 이용</p>
+        </article>
+        <article>
+          <h3>자가용 / 주차</h3>
+          <p>주차 무제한</p>
+          <p class="muted">네비게이션: "가천컨벤션" 또는 "성남대로 1342"</p>
+          <p><strong>경부고속도로</strong><br>
+          서울요금소 → 서울외곽순환고속도로(구리방면) → 성남·광주 IC(서울방면) → 가천대학교</p>
+          <p><strong>중부고속도로</strong><br>
+          동서울요금소(외곽순환고속도로 진입) → 송파 IC(성남방면) → 가천대학교</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 7. ACCOUNT -->
+    <section class="section account reveal" id="account" aria-labelledby="account-heading">
+      <img class="corner-deco corner-deco-flip" src="images/floral-corner.png" alt="" loading="lazy" width="1024" height="1024" aria-hidden="true">
+      <p class="section-eyebrow en">WITH HEART</p>
+      <h2 class="section-title" id="account-heading">마음 전하실 곳</h2>
+      <p class="account-message">
+        참석이 어려우신 분들을 위해<br>
+        마음 전하실 곳을 안내드립니다.<br><br>
+        따뜻한 축하의 마음,<br>
+        저희 두 사람 오래 간직하겠습니다.
+      </p>
+
+      <details class="acc-group">
+        <summary>신랑측 계좌번호</summary>
+        <ul class="acc-list">
+          <li>
+            <p class="acc-name">신랑 배재형</p>
+            <p class="acc-num">국민은행 668802-01-429095</p>
+            <button type="button" class="copy-btn" data-copy="국민은행 668802-01-429095 배재형" aria-label="신랑 배재형 계좌번호 복사">
+              <span class="copy-default">
+                <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+                복사
+              </span>
+              <span class="copy-done" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                완료
+              </span>
+            </button>
+          </li>
+          <li>
+            <p class="acc-name">신랑 어머니 임경숙</p>
+            <p class="acc-num">하나은행 438-911160-91207</p>
+            <button type="button" class="copy-btn" data-copy="하나은행 438-911160-91207 임경숙" aria-label="임경숙 계좌번호 복사">
+              <span class="copy-default"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>복사</span>
+              <span class="copy-done" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>완료</span>
+            </button>
+          </li>
+        </ul>
+      </details>
+
+      <details class="acc-group">
+        <summary>신부측 계좌번호</summary>
+        <ul class="acc-list">
+          <li>
+            <p class="acc-name">신부 이규원</p>
+            <p class="acc-num">기업은행 63502553501010</p>
+            <button type="button" class="copy-btn" data-copy="기업은행 63502553501010 이규원" aria-label="신부 이규원 계좌번호 복사">
+              <span class="copy-default"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>복사</span>
+              <span class="copy-done" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>완료</span>
+            </button>
+          </li>
+          <li>
+            <p class="acc-name">신부 아버지 이형달</p>
+            <p class="acc-num">농협은행 23508656042096</p>
+            <button type="button" class="copy-btn" data-copy="농협은행 23508656042096 이형달" aria-label="이형달 계좌번호 복사">
+              <span class="copy-default"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>복사</span>
+              <span class="copy-done" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>완료</span>
+            </button>
+          </li>
+          <li>
+            <p class="acc-name">신부 어머니 정은숙</p>
+            <p class="acc-num">신한은행 110048532971</p>
+            <button type="button" class="copy-btn" data-copy="신한은행 110048532971 정은숙" aria-label="정은숙 계좌번호 복사">
+              <span class="copy-default"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>복사</span>
+              <span class="copy-done" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>완료</span>
+            </button>
+          </li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- 8. RSVP — 사용 안 함 -->
+    <!-- 9. GUESTBOOK — 사용 안 함 -->
+    <!-- 10. SHARE -->
+    <section class="section share reveal" id="share" aria-labelledby="share-heading">
+      <p class="section-eyebrow en">SHARE</p>
+      <h2 class="section-title" id="share-heading">청첩장 공유</h2>
+      <p class="share-message">
+        저희의 소식을<br>
+        가까운 분들께도 함께 전해 주세요.
+      </p>
+      <div class="share-actions">
+        <button type="button" class="btn primary" id="share-kakao" aria-label="카카오톡으로 공유하기">카카오톡으로 공유하기</button>
+        <button type="button" class="btn" id="share-link" aria-label="청첩장 링크 복사하기">링크 복사하기</button>
+      </div>
+    </section>
+
+    <footer class="card-footer">
+      <p class="script">Thank you</p>
+      <p class="footer-line">2026 . 12 . 12</p>
+      <p class="footer-line en">재형 &amp; 규원</p>
+    </footer>
+  </main>
+
+  <!-- 라이트박스 모달 -->
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="사진 확대 보기">
+    <button class="lightbox-close" id="lightbox-close" type="button" aria-label="닫기">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <img class="lightbox-img" id="lightbox-img" alt="">
+  </div>
+
+  <!-- 토스트 -->
+  <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68da8e02014b2b0ef007a819ba05da28"></script>
+  <script src="script.js"></script>
+</body>
+</html>
