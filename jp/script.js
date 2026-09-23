@@ -320,7 +320,9 @@
   function setupLightbox() {
     const lb = $('#lightbox');
     const img = $('#lightbox-img');
-    const close = $('#lightbox-close');     if (!lb \vert{}\vert{} !img \vert{}\vert{} !close) return;      const slides = $$('.gallery-slide img');
+    const close = $('#lightbox-close');
+    if (!lb || !img || !close) return;
+    const slides = $$('.gallery-slide img');
     let scale = 1;
     let originX = 0, originY = 0;
     let lastDist = 0;
@@ -529,7 +531,7 @@
   // ---------------------------------------------------------
   function setupShare() {
     const btnLink  = $('#share-link');
-    const btnKakao = $('#share-kakao');
+    const btnShare = $('#share-share');
 
     btnLink?.addEventListener('click', async () => {
       try {
@@ -541,7 +543,7 @@
       }
     });
 
-    btnKakao?.addEventListener('click', () => {
+    btnShare?.addEventListener('click', async () => {
       haptic(15);
       if (navigator.share) {
           try {
