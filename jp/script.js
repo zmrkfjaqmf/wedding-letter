@@ -20,15 +20,28 @@
   // ---------------------------------------------------------
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const isReduced     = () => reducedMotion.matches;
-  const $  = (sel, root = document) => root.querySelector(sel);   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const $  = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
   const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
   const haptic = (n) => { try { navigator.vibrate && navigator.vibrate(n); } catch (e) {} };
 
-  // ---------------------------------------------------------
+
+    // ---------------------------------------------------------
   // 1. HERO entrance step-in
   // ---------------------------------------------------------
   function setupHero() {
-    const hero = $('.hero');     if (!hero) return;     requestAnimationFrame(() => {       requestAnimationFrame(() => hero.classList.add('is-loaded'));     });   }    // ---------------------------------------------------------   // 2. IntersectionObserver fade reveal   // ---------------------------------------------------------   function setupReveal() {     const targets = $$('.reveal');
+    const hero = $('.hero');
+    if (!hero) return;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => hero.classList.add('is-loaded'));
+    });
+  }
+
+  // ---------------------------------------------------------
+  // 2. IntersectionObserver fade reveal
+  // ---------------------------------------------------------
+  function setupReveal() {
+    const targets = $$('.reveal');
     if (!targets.length) return;
     if (isReduced()) {
       targets.forEach(el => el.classList.add('is-visible'));
@@ -44,6 +57,7 @@
     }, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
     targets.forEach(el => io.observe(el));
 
+    // 갤러리 첫 슬라이드 blur reveal
     const firstSlide = $('.gallery-slide:first-child');
     if (firstSlide) firstSlide.classList.add('first-reveal');
   }
