@@ -64,6 +64,7 @@
     let running = true;
     let frameCount = 0;
     let measureStart = 0;
+    let rafId = null;
 
     function resize() {
       W = window.innerWidth;
@@ -80,14 +81,14 @@
       reset(init) {
         this.x = Math.random() * W;
         this.y = init ? Math.random() * H : -30;
-        this.size = 8 + Math.random() * 8;
+        this.size = 8 + Math.random() * 8;             // 8 ~ 16
         this.rot = Math.random() * Math.PI * 2;
         this.rotSpeed = (Math.random() - 0.5) * 0.03;
-        this.dur = 14000 + Math.random() * 8000;
+        this.dur = 14000 + Math.random() * 8000;       // 14~22s
         this.start = performance.now() - (init ? Math.random() * this.dur : 0);
         this.swayAmp = 20 + Math.random() * 20;
         this.swayPhase = Math.random() * Math.PI * 2;
-        this.opacity = 0.18 + Math.random() * 0.14;
+        this.opacity = 0.18 + Math.random() * 0.14;    // 0.18 ~ 0.32
         this.color = Math.random() < 0.7 ? '#C9A2A2' : '#A8B59C';
         this.baseX = this.x;
       }
@@ -122,6 +123,7 @@
           petals[i].step(now);
           petals[i].draw();
         }
+        // 5초 후 fps 측정 → 50fps 미만 시 count 절반
         frameCount++;
         if (!measureStart) measureStart = now;
         if (now - measureStart > 5000 && frameCount > 0) {
@@ -134,14 +136,15 @@
           frameCount = 0;
         }
       }
-      requestAnimationFrame(loop);
+      rafId = requestAnimationFrame(loop);
     }
 
     resize();
     spawn();
-    requestAnimationFrame(loop);
+    rafId = requestAnimationFrame(loop);
     window.addEventListener('resize', resize, { passive: true });
 
+    // 페이지가 가려지면 일시정지 (배터리/CPU 절약)
     document.addEventListener('visibilitychange', () => {
       running = document.visibilityState !== 'hidden';
     });
