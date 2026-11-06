@@ -671,6 +671,27 @@
       marker.setMap(map);
     }
   }
+  function setupMap2() {
+    const container = document.getElementById('map2');
+    if (!container) return;
+  
+    // 카카오 지도 SDK 로드 확인
+    if (window.kakao && window.kakao.maps) {
+      const options = {
+        center: new kakao.maps.LatLng(37.4571, 127.1272), // 예식장 위도, 경도 (가천컨벤션센터 기준)
+        level: 3
+      };
+  
+      const map = new kakao.maps.Map(container, options);
+  
+      // 마커 표시
+      const markerPosition = new kakao.maps.LatLng(37.4571, 127.1272);
+      const marker = new kakao.maps.Marker({
+        position: markerPosition
+      });
+      marker.setMap(map);
+    }
+  }
 
   // ---------------------------------------------------------
   // INIT
@@ -687,6 +708,7 @@
     setupShare();
     setupExternalLinks();
     setupMap();
+    setupMap2();
 
     // reduced-motion 변경 시 단순 reload (모션 일관성 보장)
     if (reducedMotion.addEventListener) {
