@@ -678,14 +678,14 @@
     // 카카오 지도 SDK 로드 확인
     if (window.kakao && window.kakao.maps) {
       const options = {
-        center: new kakao.maps.LatLng(37.4571, 127.1272), // 예식장 위도, 경도 (가천컨벤션센터 기준)
+        center: new kakao.maps.LatLng(37.45719100230034, 127.12724648702391), // 2부모임 위도, 경도 (크라운호프 기준)
         level: 3
       };
   
       const map = new kakao.maps.Map(container, options);
   
       // 마커 표시
-      const markerPosition = new kakao.maps.LatLng(37.4571, 127.1272);
+      const markerPosition = new kakao.maps.LatLng(37.45719100230034, 127.12724648702391);
       const marker = new kakao.maps.Marker({
         position: markerPosition
       });
