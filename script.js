@@ -360,6 +360,7 @@
     let panStart = null;
     let prevFocus = null;
     let currentIdx = 0;
+    let swipeStart = null;
 
     function setTransform() {
       img.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
@@ -368,7 +369,24 @@
       scale = 1; originX = 0; originY = 0;
       img.style.transform = '';
     }
+    function moveSlide(direction) {
+      if (!galleryAPI) return;
 
+      // 기존 갤러리의 인덱스를 기준으로 이동
+      currentIdx = (currentIdx + direction + galleryAPI.count)
+        % galleryAPI.count;
+
+      // 기존 갤러리 이동 로직 재사용
+      galleryAPI.show(currentIdx);
+
+      // 팝업 이미지도 동일한 사진으로 변경
+      img.src = slides[currentIdx].src;
+      img.alt = slides[currentIdx].alt || '';
+
+      // 사진 변경 시 확대 상태 초기화
+      reset();
+      haptic(8);
+    }
     function open(i) {
       currentIdx = i;
       img.src = slides[i].src;
@@ -389,7 +407,13 @@
         if (prevFocus && prevFocus.focus) prevFocus.focus();
       }, isReduced() ? 0 : 220);
     }
+    $('#lightbox-prev')?.addEventListener('click', () => {
+      moveSlide(-1);
+    });
 
+    $('#lightbox-next')?.addEventListener('click', () => {
+      moveSlide(1);
+    });
     close.addEventListener('click', closeFn);
     lb.addEventListener('click', (e) => { if (e.target === lb) closeFn(); });
     document.addEventListener('keydown', (e) => {
