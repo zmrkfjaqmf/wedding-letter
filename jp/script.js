@@ -11,7 +11,7 @@
   // ---------------------------------------------------------
   const SHARE_TITLE      = 'ペ・ジェヒョン ♡ イ・ギュウォン 結婚式のご案内';
   const SHARE_DESC       = '2026年 12月 12日(土) 18時 40分\n嘉泉(ガチョン)コンベンション 5階';
-  const SHARE_IMAGE      = 'https://jaehyung-gyuwon.kro.kr/images/2_DSC03501.jpg';
+  const SHARE_IMAGE      = 'https://jaehyung-gyuwon.kro.kr/images/3_DSC03501.jpg';
   const SHARE_URL        = 'https://jaehyung-gyuwon.kro.kr/jp';
   const TARGET_DATE_STR  = '2026-12-12';
 
